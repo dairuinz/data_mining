@@ -59,13 +59,13 @@ def model_training(bow, target):
 
     base_model = RandomForestRegressor(n_estimators=10, random_state=42)
     base_model.fit(X_train, y_train)
+    # print(base_model.predict(X_test))
     base_accuracy = evaluate(base_model, X_train, y_train)
-    print(f1_score(y_test, base_model.predict(X_test), average=None))
-
+    print('f1_score: ', (f1_score(y_test, (base_model.predict(X_test)).astype(int), average='weighted')), sep='')
 
     best_random = rf_random.best_estimator_
     random_accuracy = evaluate(best_random, X_train, y_train)
-    print(f1_score(y_test, best_random.predict(X_test), average=None))
+    print('f1_score: ', (f1_score(y_test, (best_random.predict(X_test)).astype(int), average='weighted')), sep='')
 
     print('Improvement of {:0.2f}%.'.format(100 * (random_accuracy - base_accuracy) / base_accuracy))
 
@@ -92,7 +92,7 @@ def model_training(bow, target):
     grid_accuracy = evaluate(best_grid, X_train, y_train)
 
     print('Improvement of {:0.2f}%.'.format(100 * (grid_accuracy - base_accuracy) / base_accuracy))
-    print(f1_score(y_test, best_grid.predict(X_test), average=None))
+    print('f1_score: ', (f1_score(y_test, (best_grid.predict(X_test)).astype(int), average='weighted')), sep='')
 
     #####CLASSIFICATION#####
 
@@ -116,7 +116,7 @@ def model_training(bow, target):
                    'min_samples_split': min_samples_split,
                    'min_samples_leaf': min_samples_leaf,
                    'bootstrap': bootstrap}
-    pprint(random_grid)
+    # pprint(random_grid)
 
     # Use the random grid to search for best hyperparameters
     # First create the base model to tune
@@ -138,7 +138,9 @@ def model_training(bow, target):
 
     best_random = rf_random.best_estimator_
     evaluate(best_random, X_test, y_test)
-    print(f1_score(y_test, best_random.predict(X_test), average=None))
+    print('f1_score: ', (f1_score(y_test, (best_random.predict(X_test)).astype(int), average='weighted')), sep='')
+
+
 
     # Create the parameter grid based on the results of random search
     param_grid = {
@@ -160,6 +162,7 @@ def model_training(bow, target):
 
     best_grid = grid_search.best_estimator_
     evaluate(best_grid, X_test, y_test)
-    print(f1_score(y_test, best_grid.predict(X_test), average=None))
+    print('f1_score: ', (f1_score(y_test, (best_grid.predict(X_test)).astype(int), average='weighted')), sep='')
+
 
 
