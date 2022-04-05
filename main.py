@@ -10,8 +10,7 @@ warnings.filterwarnings('ignore')
 
 def main():
     df = pd.read_csv('amazon.csv')
-    # work_df = df[:500]
-    work_df = df[:50]
+    work_df = df[:500]
     # print(work_df.columns)
 
     work_df = preprocessing.data_preprocessing(work_df)
