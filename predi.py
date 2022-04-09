@@ -7,14 +7,20 @@ from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import BaggingClassifier, RandomForestRegressor, RandomForestClassifier
 import numpy as np
 from pprint import pprint
+from imblearn.under_sampling import RandomUnderSampler
+
 
 def model_training(bow, target):
     X_train, X_test, y_train, y_test = train_test_split(bow, target, test_size=0.2, random_state=42,stratify=target)     #splits df in train, test, random_state=42 so it splits with the same way each time
 
+    #trying to balance the samples
+    sampling_strategy = {1: 3977, 2: 2000, 3: 3000, 4:4000, 5:3000}
+    X_train, y_train = RandomUnderSampler(sampling_strategy=sampling_strategy).fit_resample(X_train, y_train)
+
     # Number of trees in random forest
     n_estimators = [int(x) for x in range(200, 2000, 200)]
     # Number of features to consider at every split
-    max_features = ['auto', 'sqrt']
+    max_features = ['auto', 'sqrt']                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     # Maximum number of levels in tree
     max_depth = [int(x) for x in np.linspace(10, 110, num=11)]
     max_depth.append(None)
@@ -34,20 +40,17 @@ def model_training(bow, target):
     # pprint(random_grid)
 
     # Use the random grid to search for best hyperparameters
-    # First create the base model to tune
     rf = RandomForestClassifier()
     # Random search of parameters, using 3 fold cross validation,
-    # search across 100 different combinations, and use all available cores
+    # search across 100 different combinations, use all available cores
     rf_random = RandomizedSearchCV(estimator=rf, param_distributions=random_grid, n_iter=100, cv=3, verbose=1,
                                    random_state=42, n_jobs=-1)
 
-    # Fit the random search model
     rf_random.fit(X_train, y_train)
 
     print(rf_random.best_params_)
 
     best_random = rf_random.best_estimator_
-    # evaluate(best_random, X_test, y_test)
     y_pred = best_random.predict(X_test)
     print('f1_score: ', (f1_score(y_test, (y_pred).astype(int), average='weighted')), sep='')
     print('Accuracy score: ', accuracy_score(y_test, (y_pred).astype(int)), sep='')
@@ -63,9 +66,8 @@ def model_training(bow, target):
         'min_samples_split': [3, 4, 5, 6],
         'n_estimators': [1000, 1150, 1250, 1300, 1350]
     }
-    # Create a based model
     rf = RandomForestClassifier()
-    # Instantiate the grid search model
+
     grid_search = GridSearchCV(estimator=rf, param_grid=param_grid,
                                    cv=3, n_jobs=-1, verbose=1)
 
@@ -82,11 +84,8 @@ def model_training(bow, target):
     # rf.fit(X_train, y_train)
     # y_pred = rf.predict(X_test)
 
-    from sklearn.metrics import confusion_matrix
-
     # print(confusion_matrix(y_test, y_pred))
 
-    # evaluate(best_grid, X_test, y_test)
     y_pred = best_grid.predict(X_test)
     # print(y_pred)
     print('f1_score: ', (f1_score(y_test, (y_pred).astype(int), average='weighted')), sep='')

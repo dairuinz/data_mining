@@ -10,7 +10,8 @@ warnings.filterwarnings('ignore')
 
 def main():
     df = pd.read_csv('amazon.csv')
-    # work_df = df[:15000]
+    # print(df.Score.value_counts())
+    # work_df = df[:500]
     work_df = df
     # print(work_df.columns)
 
@@ -18,9 +19,7 @@ def main():
     # print(work_df[['Text', 'clean']])
 
     # vectors = preprocessing.vectorizer(work_df)
-    # print(vectors.shape)
     vectors = preprocessing.wordtovec(work_df['clean'])
-    # print(vectors)
 
     predi.model_training(vectors, work_df['Score'])
 
