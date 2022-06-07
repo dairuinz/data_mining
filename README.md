@@ -1,6 +1,6 @@
 # Data Mining 
 
-# Tasks
+# 2
 
 + Preprocessing of Data
   + Tokenization
