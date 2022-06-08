@@ -1,6 +1,19 @@
 # Data Mining 
 
-# 2
+# Energy Demand & Sources Prediction
+
++ Files handling
+  + Merge 
+  + Missing data handling 
+  
++ Data Visualization
+
++ Anomalies & Outliers Detection
+
++ Model Training & Prediction
+  + LSTM Neural Network 
+
+# Amazon Sentiment Analysis
 
 + Preprocessing of Data
   + Tokenization
