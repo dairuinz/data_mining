@@ -1,6 +1,6 @@
-## Data Mining 
+# Data Mining 
 
-# Energy Demand & Sources Prediction
+## Energy Demand & Sources Prediction
 
 + Files handling
   + Merge 
@@ -13,7 +13,7 @@
 + Model Training & Prediction
   + LSTM Neural Network 
 
-# Amazon Sentiment Analysis
+## Amazon Sentiment Analysis
 
 + Preprocessing of Data
   + Tokenization
